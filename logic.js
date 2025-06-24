@@ -93,3 +93,9 @@ function decode_text(encoded)
     return decoder.decode(bytes);
 
 }
+
+function copy()
+{
+    navigator.clipboard.writeText(text.textContent);
+    alert("Copied the text!");
+}
