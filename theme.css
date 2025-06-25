@@ -5,6 +5,7 @@
 
 * {
     color: var(--light);
+    font-family: "Monospace";
 }
 
 html, body {
@@ -21,13 +22,12 @@ button {
     border: 1px solid var(--light);
     border-radius: 2px;
     font-size: 1em;
-    margin: 2px 2px 0 0;
 
     cursor: pointer;
 
     min-width: 1em;
     min-height: 1em;
-    padding: 0.2em 0.5em;
+    padding: 0.5em;
 }
 
 button:hover {
@@ -44,24 +44,37 @@ button:hover {
 }
 
 .container_child {
-    /*float: left;*/
     width: 99%;
     border: 1px solid var(--light);
     margin: 5px;
     overflow: hidden;
 }
 
+.container_child p {
+    background-color: var(--light);
+    color: var(--dark);
+    margin: 0em;
+    padding: 1em;
+}
+
 .container_buttons {
-    float: left;
     margin: 15px 0px;
+    padding: 0em 1em;
 }
 
 ul, #tree {
     list-style-type: none;
+    padding: 0px 1em;
 }
 
 li {
     margin: 5px;
+}
+
+li span::before {
+    content: "📄";
+    display: inline-block;
+    margin-right: 5px;
 }
 
 span {
