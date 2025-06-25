@@ -97,5 +97,5 @@ function decode_text(encoded)
 function copy()
 {
     navigator.clipboard.writeText(text.textContent);
-    alert("Copied the text!");
+    console.log("Copied the text!");
 }
