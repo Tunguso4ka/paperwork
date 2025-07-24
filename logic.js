@@ -1,4 +1,4 @@
-// var params = new URLSearchParams(document.location.search);
+var params = new URLSearchParams(document.location.search);
 
 const user = "crazy1112345";
 const repo = "RMC14Paperwork";
@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function()
     tree = document.getElementById("tree");
 
     fetch_directory(`https://api.github.com/repos/${user}/${repo}/git/trees/${branch}?recursive=1`);
+
+    if (params.has('file'))
+        fetch_file(`https://api.github.com/repos/${user}/${repo}/contents/${params.get('file')}`)
 
 }, false);
 
@@ -45,6 +48,8 @@ async function fetch_directory(url)
         else
         {
             tree_item_span.addEventListener("click", function() {
+                params.set('file', i.path);
+                history.pushState('', '', '?' + params.toString());
                 fetch_file(i.url);
             });
         }
