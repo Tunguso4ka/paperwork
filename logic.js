@@ -9,6 +9,8 @@ var dir;
 var text;
 var tree;
 
+var file_name = "document.txt";
+
 document.addEventListener('DOMContentLoaded', function()
 {
     text = document.getElementById("text");
@@ -50,6 +52,7 @@ async function fetch_directory(url)
             tree_item_span.addEventListener("click", function() {
                 params.set('file', i.path);
                 history.pushState('', '', '?' + params.toString());
+                file_name = i.path.split('/').at(-1);
                 fetch_file(i.url);
             });
         }
@@ -80,7 +83,21 @@ async function fetch_file(url)
     const response = await fetch(url);
     var file = await response.json();
 
-    text.textContent = `${decode_text(file.content)}`;
+    var content = `${decode_text(file.content)}`;
+    // Bold
+    content = content.replaceAll("[bold]", "<b>[bold]");
+    content = content.replaceAll("[/bold]", "[/bold]</b>");
+    // Italic
+    content = content.replaceAll("[italic]", "<em>[italic]");
+    content = content.replaceAll("[/italic]", "[/italic]</em>");
+    // Bold Italic
+    content = content.replaceAll("[bolditalic]", "<b><em>[bolditalic]");
+    content = content.replaceAll("[/bolditalic]", "[/bolditalic]</em></b>");
+    // Heads
+    content = content.replaceAll("[head", "<b>[head");
+    content = content.replaceAll("[/head]", "[/head]</b>");
+
+    text.innerHTML = content;
 }
 
 function decode_text(encoded)
@@ -96,11 +113,22 @@ function decode_text(encoded)
     }
     const decoder = new TextDecoder(); // default is utf-8
     return decoder.decode(bytes);
-
 }
 
 function copy()
 {
     navigator.clipboard.writeText(text.textContent);
     console.log("Copied the text!");
+}
+
+function save()
+{
+    // TODO, https://developer.mozilla.org/en-US/docs/Web/API/Window/showSaveFilePicker#browser_compatibility
+
+    const blob = new Blob([text.textContent], {type:'text/plain'});
+    const a = document.createElement('a');
+
+    a.href = URL.createObjectURL(blob);
+    a.download = file_name;
+    a.click();
 }

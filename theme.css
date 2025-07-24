@@ -36,7 +36,7 @@ button:hover {
 }
 
 #text {
-    white-space: pre-line;
+    white-space: pre;
 }
 
 #container_main {
@@ -55,6 +55,10 @@ button:hover {
     color: var(--dark);
     margin: 0em;
     padding: 1em;
+}
+
+.container_child p * {
+    color: var(--dark);
 }
 
 .container_buttons {
