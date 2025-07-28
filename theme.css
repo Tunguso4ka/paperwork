@@ -36,7 +36,7 @@ button:hover {
 }
 
 #text {
-    white-space: pre;
+    white-space: pre-wrap;
 }
 
 #container_main {
