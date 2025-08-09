@@ -11,9 +11,26 @@ var tree;
 
 var file_name = "document.txt";
 
+const elements = {
+    "[bold]": "<strong>[bold]",
+    "[italic]": "<em>[italic]",
+    "[bolditalic]": "<strong><em>[bolditalic]",
+    "[/bold]": "[/bold]</strong>",
+    "[/italic]": "[/italic]</em>",
+    "[/bolditalic]": "[/bolditalic]</em></strong>",
+    "[head]": "<h3>[head]",
+    "[head=1]": "<h3>[head=1]",
+    "[head=2]": "<h3>[head=2]",
+    "[head=3]": "<h3>[head=3]",
+    "[/head]": "[/head]</h3>",
+    "[/color]": "[/color]</span>",
+}
+
 document.addEventListener('DOMContentLoaded', function()
 {
     text = document.getElementById("text");
+    text.addEventListener("focusout", rerender_text)
+
     tree = document.getElementById("tree");
 
     fetch_directory(`https://api.github.com/repos/${user}/${repo}/git/trees/${branch}?recursive=1`);
@@ -78,26 +95,35 @@ async function fetch_directory(url)
     //fetch_file(dir.tree[47].url);
 }
 
+function parse_text(file_content)
+{
+    var content = "";
+    const tokens = `${file_content}`.split(/(\[\/?[a-z=0-9#]+\])/i).filter(Boolean); // stolen from yagwog, thanks <3
+
+    for (const i in tokens)
+    {
+        if (tokens[i] in elements)
+            content += elements[tokens[i]];
+        else if (tokens[i].startsWith("[color="))
+            content += `<span style="color: ${tokens[i].split('=')[1].slice(0, -1)};">${tokens[i]}`
+        else
+            content += tokens[i];
+    }
+    content += "<br/>"
+    return content;
+}
+
 async function fetch_file(url)
 {
     const response = await fetch(url);
-    var file = await response.json();
+    const file = await response.json();
 
-    var content = `${decode_text(file.content)}`;
-    // Bold
-    content = content.replaceAll("[bold]", "<b>[bold]");
-    content = content.replaceAll("[/bold]", "[/bold]</b>");
-    // Italic
-    content = content.replaceAll("[italic]", "<em>[italic]");
-    content = content.replaceAll("[/italic]", "[/italic]</em>");
-    // Bold Italic
-    content = content.replaceAll("[bolditalic]", "<b><em>[bolditalic]");
-    content = content.replaceAll("[/bolditalic]", "[/bolditalic]</em></b>");
-    // Heads
-    content = content.replaceAll("[head", "<b>[head");
-    content = content.replaceAll("[/head]", "[/head]</b>");
+    text.innerHTML = parse_text(decode_text(file.content));
+}
 
-    text.innerHTML = content;
+function rerender_text(e)
+{
+    text.innerHTML = parse_text(text.textContent);
 }
 
 function decode_text(encoded)

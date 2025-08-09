@@ -36,34 +36,26 @@ button:hover {
 }
 
 #text {
+    overflow: scroll;
     white-space: pre-wrap;
-}
-
-#container_main {
-    overflow: hidden;
-}
-
-.container_child {
-    width: 99%;
-    border: 1px solid var(--light);
-    margin: 5px;
-    overflow: hidden;
-}
-
-.container_child p {
-    background-color: var(--light);
+    background-color: #FFFFFF;
     color: var(--dark);
     margin: 0em;
     padding: 1em;
 }
 
-.container_child p * {
-    color: var(--dark);
+#text * {
+    color: inherit;
+    display: inline;
+}
+
+.container_child {
+    border: 1px solid var(--light);
+    margin: 5px 0;
 }
 
 .container_buttons {
-    margin: 15px 0px;
-    padding: 0em 1em;
+    padding: 0.5em;
 }
 
 ul, #tree {
@@ -81,12 +73,12 @@ li span::before {
     margin-right: 5px;
 }
 
-span {
+li span {
     cursor: pointer;
     user-select: none;
 }
 
-span:hover {
+li span:hover {
     text-decoration: underline var(--light);
 }
 
