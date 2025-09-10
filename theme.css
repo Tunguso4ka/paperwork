@@ -3,6 +3,14 @@
     --light: #CAE9FF;
 }
 
+@media (max-width : 1080px) {
+    #container_main { display: block; }
+}
+
+@media (min-width : 1080px) {
+    #container_main { display: flex; }
+}
+
 * {
     color: var(--light);
     font-family: "Monospace";
@@ -28,6 +36,7 @@ button {
     min-width: 1em;
     min-height: 1em;
     padding: 0.5em;
+    margin: 5px;
 }
 
 button:hover {
@@ -42,6 +51,7 @@ button:hover {
     color: var(--dark);
     margin: 0em;
     padding: 1em;
+    min-height: 500px;
 }
 
 #text * {
@@ -51,16 +61,17 @@ button:hover {
 
 .container_child {
     border: 1px solid var(--light);
-    margin: 5px 0;
+    min-width: 300px;
 }
 
 .container_buttons {
-    padding: 0.5em;
+    display: flex;
+    padding: 0.3em
 }
 
 ul, #tree {
     list-style-type: none;
-    padding: 0px 1em;
+    padding: 0px 12px;
 }
 
 li {

@@ -1,17 +1,17 @@
 var params = new URLSearchParams(document.location.search);
 
-const user = "crazy1112345";
+const user = "crazy1112345";  // github link info
 const repo = "RMC14Paperwork";
 const branch = "main";
 
-var dir;
+var dir;  // Scrapped directory json file
 
-var text;
-var tree;
+var text;  // <p> with contenteditable
+var tree;  // TreeView
 
 var file_name = "document.txt";
 
-const elements = {
+const elements = {  // Tags
     "[bold]": "<strong>[bold]",
     "[italic]": "<em>[italic]",
     "[bolditalic]": "<strong><em>[bolditalic]",
@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', function()
 
 }, false);
 
+
+// Fetches json file with every file in specified repo
 async function fetch_directory(url)
 {
     const response = await fetch(url);
@@ -49,6 +51,7 @@ async function fetch_directory(url)
 
     for (const i of dir.tree)
     {
+        // Gets array with directory path and file name.
         const path = [i.path.split('/').slice(0, -1).join('/'), i.path.split('/').slice(-1)[0]];
 
         const tree_item = document.createElement("li");
@@ -56,7 +59,7 @@ async function fetch_directory(url)
         const tree_item_span = document.createElement("span");
         tree_item_span.innerText = path[1];
 
-        if (i.type == "tree")
+        if (i.type == "tree")  // Directory
         {
             tree_item_span.classList.add("caret");
             tree_item_span.addEventListener("click", function() {
@@ -64,7 +67,7 @@ async function fetch_directory(url)
                 this.classList.toggle("caret-down");
             });
         }
-        else
+        else  // File
         {
             tree_item_span.addEventListener("click", function() {
                 params.set('file', i.path);
@@ -90,11 +93,20 @@ async function fetch_directory(url)
 
         tree_links[path[0]].appendChild(tree_item);
     }
-
-    //console.log(dir.tree)
-    //fetch_file(dir.tree[47].url);
 }
 
+// Fetches file json with b64 encoded text
+async function fetch_file(url)
+{
+    const response = await fetch(url);
+    const file = await response.json();
+
+    console.log(url);
+
+    text.innerHTML = parse_text(decode_text(file.content));
+}
+
+// Transforms SS14 papercode tags into html tags
 function parse_text(file_content)
 {
     var content = "";
@@ -113,22 +125,15 @@ function parse_text(file_content)
     return content;
 }
 
-async function fetch_file(url)
-{
-    const response = await fetch(url);
-    const file = await response.json();
-
-    text.innerHTML = parse_text(decode_text(file.content));
-}
-
 function rerender_text(e)
 {
     text.innerHTML = parse_text(text.textContent);
 }
 
+// Decodes b64 to UTF-8
 function decode_text(encoded)
 {
-    // atob only can decode into ASCII, github encodes text into UTF-8. So some symbols like 
+    // atob only can decode into ASCII, github encodes text into UTF-8.
     // Taken from https://stackoverflow.com/a/64752311
 
     const text = atob(encoded);
