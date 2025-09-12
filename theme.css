@@ -49,9 +49,12 @@ button:hover {
     white-space: pre-wrap;
     background-color: #FFFFFF;
     color: var(--dark);
-    margin: 0em;
+    margin: 0 8px 8px 8px;
     padding: 1em;
     min-height: 500px;
+    max-width: 900px;
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
 }
 
 #text * {
@@ -61,7 +64,14 @@ button:hover {
 
 .container_child {
     border: 1px solid var(--light);
-    min-width: 300px;
+    min-width: 400px;
+}
+
+.container_text {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .container_buttons {
