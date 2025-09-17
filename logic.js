@@ -54,6 +54,9 @@ async function fetch_directory(url)
         // Gets array with directory path and file name.
         const path = [i.path.split('/').slice(0, -1).join('/'), i.path.split('/').slice(-1)[0]];
 
+        if (path[1].startsWith('Placeholder'))
+            continue;
+
         const tree_item = document.createElement("li");
 
         const tree_item_span = document.createElement("span");
