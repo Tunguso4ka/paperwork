@@ -5,14 +5,14 @@
 
 @media (max-width : 1080px) {
     #container_main { display: block; }
-}
-
-@media (max-width : 600px) {
-    #text { font-size: 0.6em; }
+    #text { width: 90%;}
+    button { font-size: smaller; }
 }
 
 @media (min-width : 1080px) {
     #container_main { display: flex; }
+    #text { max-width: 900px;}
+    button { font-size: 1em; }
 }
 
 * {
@@ -33,7 +33,6 @@ button {
     color: var(--dark);
     border: 1px solid var(--light);
     border-radius: 2px;
-    font-size: 1em;
 
     cursor: pointer;
 
@@ -50,13 +49,13 @@ button:hover {
 
 #text {
     overflow: scroll;
+    overflow-y: scroll;
     white-space: pre-wrap;
     background-color: #FFFFFF;
     color: var(--dark);
     margin: 0 8px 8px 8px;
     padding: 1em;
     min-height: 400px;
-    max-width: 900px;
     border: 2px solid #FFFFFF;
     border-radius: 16px;
 }
