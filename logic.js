@@ -6,7 +6,7 @@ const branch = "main";
 
 var dir;  // Scrapped directory json file
 
-var text;  // <p> with contenteditable
+var textbox;  // <p> with contenteditable
 var tree;  // TreeView
 
 var file_name = "document.txt";
@@ -28,8 +28,8 @@ const elements = {  // Tags
 
 document.addEventListener('DOMContentLoaded', function()
 {
-    text = document.getElementById("text");
-    text.addEventListener("focusout", rerender_text)
+    textbox = document.getElementById("text");
+    textbox.addEventListener("focusout", rerender_text)
 
     tree = document.getElementById("tree");
 
@@ -128,9 +128,9 @@ function parse_text(file_content)
     return content;
 }
 
-function rerender_text(e)
+function rerender_text()
 {
-    text.innerHTML = parse_text(text.textContent);
+    textbox.innerHTML = parse_text(textbox.textContent);
 }
 
 // Decodes b64 to UTF-8
@@ -151,7 +151,7 @@ function decode_text(encoded)
 
 function copy()
 {
-    navigator.clipboard.writeText(text.textContent);
+    navigator.clipboard.writeText(textbox.textContent);
     console.log("Copied the text!");
 }
 
@@ -159,7 +159,7 @@ function save()
 {
     // TODO, https://developer.mozilla.org/en-US/docs/Web/API/Window/showSaveFilePicker#browser_compatibility
 
-    const blob = new Blob([text.textContent], {type:'text/plain'});
+    const blob = new Blob([textbox.textContent], {type:'text/plain'});
     const a = document.createElement('a');
 
     a.href = URL.createObjectURL(blob);
