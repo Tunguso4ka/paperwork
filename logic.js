@@ -36,7 +36,10 @@ document.addEventListener('DOMContentLoaded', function()
     fetch_directory(`https://api.github.com/repos/${user}/${repo}/git/trees/${branch}?recursive=1`);
 
     if (params.has('file'))
+    {
+        file_name = params.get('file').slice(params.get('file').lastIndexOf('/')+1)
         fetch_file(`https://api.github.com/repos/${user}/${repo}/contents/${params.get('file')}`)
+    }
 
 }, false);
 
@@ -148,6 +151,17 @@ function decode_text(encoded)
     const decoder = new TextDecoder(); // default is utf-8
     return decoder.decode(bytes);
 }
+
+
+// Adds/Removes autolabel
+function toggle_label()
+{
+    if (textbox.textContent[0] == '#')
+        textbox.innerHTML = textbox.innerHTML.slice(textbox.innerHTML.indexOf('\n')+1);
+    else
+        textbox.innerHTML = `# ${file_name.replace('.txt', '')}\n` + textbox.innerHTML
+}
+
 
 function copy()
 {
