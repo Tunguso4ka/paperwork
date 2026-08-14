@@ -20,7 +20,7 @@
     font-family: "Monospace";
 }
 
-html, body {
+html {
     background-color: var(--dark);
 }
 
